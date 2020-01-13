@@ -1,0 +1,122 @@
+\documentclass[12pt, a4paper] {ncc}
+
+\usepackage[utf8] {inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english, russian] {babel}
+\let\proof\relax
+\let\endproof\relax
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{caption}
+\graphicspath{ {./} }
+
+\captionsetup{labelformat=empty,labelsep=none}
+
+\lstset{
+	basicstyle=\footnotesize,
+	breakatwhitespace=false,
+	breaklines=true,
+	extendedchars=true,
+	frame=single,
+	keepspaces=true,
+	keywordstyle=\bfseries,
+	language=C,
+	numbers=left,
+	numbersep=5pt,
+	numberstyle=\tiny,
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	stepnumber=1,
+	stringstyle=\emph,
+	tabsize=4
+}
+\lstset{extendedchars=\true}
+
+\begin{document}
+
+
+\textbf{Денис Ваксман, M3439}
+
+
+\textbf{Курсовая работа по курсу "Введение в базы данных"}
+
+
+\section{Модель сущность-связь}
+\section{Физическая модель}
+\section{Нормализация}
+\subsection{Функциональные зависимости}
+\textbf{Media:}
+\begin{itemize}
+\item id $\rightarrow$ filePath
+\item filePath $\rightarrow$ id
+\item id $\rightarrow$ type
+\item id $\rightarrow$ size
+\item id $\rightarrow$ time
+\end{itemize}
+У следующих отношений пустое множество функциональных зависимостей:
+\begin{itemize}
+\item UserChats
+\item UserGroups
+\item Friends
+\end{itemize}
+У следующих отношений множество функциональных зависимостей имеет вид \\
+$\{id \rightarrow A ~ | ~ \forall A \in \textit{attrs}, A \ne id\}$:
+\begin{itemize}
+\item Users
+\item Chats
+\item Messages
+\item Groups
+\item Posts
+\item UserPosts
+\item UserMedia
+\item GroupPosts
+\item GroupMedia
+\item PostMedia
+\item MessageMedia
+\end{itemize}
+\subsection{Нормальные формы}
+\textbf{Media}:
+\begin{itemize}
+\item 3 НФ: \\
+т.к. все неключевые атрибуты непосредственно зависят от ключа
+\item НФБК: \\
+т.к. все ключи простые и 3НФ
+\item 4НФ и 5НФ: \\
+по теореме Дейта-Фейгина 1 (все ключи простые и НФБК)
+\end{itemize}
+TODO:
+\begin{itemize}
+\item UserChats
+\item UserGroups
+\item Friends
+\end{itemize}
+Оставшиеся отношения имеют множество ФЗ вида \\
+$\{id \rightarrow A ~ | ~ \forall A \in \textit{attrs}, A \ne id\}$:
+\begin{itemize}
+\item 3 НФ: \\
+т.к. все неключевые атрибуты непосредственно зависят от ключа
+\item НФБК: \\
+т.к. все ключи простые и 3НФ
+\item 4НФ и 5НФ: \\
+по теореме Дейта-Фейгина 1 (все ключи простые и НФБК)
+\end{itemize}
+\section{Основные SQL запросы}
+\subsection{Чатсые действия}
+\begin{enumerate}
+\item Пользователь отправил другому пользователю сообщение
+\item Пользователь опубликовал пост
+\item Пользователь подписался на группу
+\item Пользователь добавил в друзья другого пользователя
+\item Группа опубликовала пост
+\item Пользователь загрузил фотографию
+\item Группа загрузила видеозапись
+\item Пользователь открыл ленту (получил все посты своих групп)
+\end{enumerate}
+\end{document}
