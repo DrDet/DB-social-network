@@ -49,7 +49,10 @@
 
 
 \section{Модель сущность-связь}
+По умолчанию все поля обязательные. \\
+\includegraphics[scale=0.8]{rel.png}
 \section{Физическая модель}
+\includegraphics[scale=0.6]{phys.png}
 \section{Нормализация}
 \subsection{Функциональные зависимости}
 \textbf{Media:}
@@ -64,7 +67,8 @@
 \begin{itemize}
 \item UserChats
 \item UserGroups
-\item Friends
+\item Followers
+\item Likes
 \end{itemize}
 У следующих отношений множество функциональных зависимостей имеет вид \\
 $\{id \rightarrow A ~ | ~ \forall A \in \textit{attrs}, A \ne id\}$:
@@ -82,6 +86,7 @@ $\{id \rightarrow A ~ | ~ \forall A \in \textit{attrs}, A \ne id\}$:
 \item MessageMedia
 \end{itemize}
 \subsection{Нормальные формы}
+Все отношения находятся в 5 НФ. Доказательство:\\
 \textbf{Media}:
 \begin{itemize}
 \item 3 НФ: \\
@@ -91,13 +96,14 @@ $\{id \rightarrow A ~ | ~ \forall A \in \textit{attrs}, A \ne id\}$:
 \item 4НФ и 5НФ: \\
 по теореме Дейта-Фейгина 1 (все ключи простые и НФБК)
 \end{itemize}
-TODO:
+\textbf{UserChats, UserGroups, Followers и Likes}:
 \begin{itemize}
-\item UserChats
-\item UserGroups
-\item Friends
+\item НФБК, так как пустое множество ФЗ ($\Rightarrow$ 3НФ)
+\item Все отношения состоят из двух атрибутов $\Rightarrow$ имеют только тривиальные МЗ $\Rightarrow$ 4НФ
+\item Так как атрибутов всего 2, возможно только одно нетривиальное разбиение: *\{X, Y\}.\\ 
+Но при таком разбиении они не пересекаются $\Rightarrow$ это не ЗС $\Rightarrow$ 5НФ
 \end{itemize}
-Оставшиеся отношения имеют множество ФЗ вида \\
+\textbf{Оставшиеся} отношения имеют множество ФЗ вида \\
 $\{id \rightarrow A ~ | ~ \forall A \in \textit{attrs}, A \ne id\}$:
 \begin{itemize}
 \item 3 НФ: \\
@@ -108,15 +114,63 @@ $\{id \rightarrow A ~ | ~ \forall A \in \textit{attrs}, A \ne id\}$:
 по теореме Дейта-Фейгина 1 (все ключи простые и НФБК)
 \end{itemize}
 \section{Основные SQL запросы}
-\subsection{Чатсые действия}
+\subsection{Частые действия}
 \begin{enumerate}
-\item Пользователь отправил другому пользователю сообщение
-\item Пользователь опубликовал пост
-\item Пользователь подписался на группу
-\item Пользователь добавил в друзья другого пользователя
-\item Группа опубликовала пост
-\item Пользователь загрузил фотографию
-\item Группа загрузила видеозапись
-\item Пользователь открыл ленту (получил все посты своих групп)
+\item \textbf{Пользователь отправил в чат сообщение с картинкой} \\
+Входные данные: \\
+USER\_ID -- id пользователя\\
+CHAT\_ID -- id чата\\
+MSG\_TEXT -- текст сообщения\\
+URL -- картинка\\
+SIZE -- размер картинки
+\lstinputlisting[language=sql]{../sql/actions/1.sql}
+\item \textbf{Пользователь подал заявку в друзья другому пользователю} \\
+FROM\_ID -- инциатор заявки \\
+TO\_ID -- кому заявка
+\lstinputlisting[language=sql]{../sql/actions/2.sql}
+\item \textbf{Пользователь опубликовал пост} \\
+Входные данные: USER\_ID, POST\_TEXT
+\lstinputlisting[language=sql]{../sql/actions/3.sql}
+\item \textbf{Пользователь лайкнул пост} \\
+Входные данные: USER\_ID, POST\_ID
+\lstinputlisting[language=sql]{../sql/actions/4.sql}
+\item \textbf{Пользователь подписался на группу} \\
+Входные данные: USER\_ID, GROUP\_ID
+\lstinputlisting[language=sql]{../sql/actions/5.sql}
+\item \textbf{Группа опубликовала пост} \\
+Входные данные: GROUP\_ID, POST\_TEXT
+\lstinputlisting[language=sql]{../sql/actions/6.sql}
+\item \textbf{Пользователь загрузил фотографию} \\
+Входные данные: USER\_ID, URL, SIZE
+\lstinputlisting[language=sql]{../sql/actions/7.sql}
+\item \textbf{Группа загрузила видеозапись} \\
+Входные данные: GROUP\_ID, URL, SIZE
+\lstinputlisting[language=sql]{../sql/actions/8.sql}
+\item \textbf{Пользователь открыл ленту (получил все посты своих групп и подписок, кроме тех, которые уже лайкал)} \\
+Входные данные: USER\_ID
+\lstinputlisting[language=sql, tab=2]{../sql/actions/9.sql}
+\item \textbf{Получить топ 20 интересных постов (20 постов с наибольшим количеством лайков от подписок)} \\
+Входные данные: USER\_ID
+\lstinputlisting[language=sql]{../sql/actions/10.sql}
+\item \textbf{Получить общих друзей с другим пользователем} \\
+Входные данные: USER\_ID, OTHER\_ID
+\lstinputlisting[language=sql]{../sql/actions/11.sql}
+\item \textbf{Получить 10 наиболее возможных знакомых (10 человек с наибольшим количеством общих друзей)} \\
+Входные данные: USER\_ID \\
+\lstinputlisting[language=sql]{../sql/actions/12.sql}
+\item \textbf{Получить ранжированный список друзей (по количеству сообщений в смежных чатах)} \\
+Входные данные: USER\_ID
+\lstinputlisting[language=sql]{../sql/actions/13.sql}
+\item \textbf{Получить ранжированный список групп (по количеству лайков от пользователя на постах этой группы)} \\
+Входные данные: USER\_ID \\\\
+\lstinputlisting[language=sql]{../sql/actions/14.sql}
+\item \textbf{Получить список чатов в порядке времени последнего сообщения} \\
+Входные данные: USER\_ID
+\lstinputlisting[language=sql]{../sql/actions/15.sql}
+\item \textbf{Получить список чатов, в которых как минимум 80\% друзей} \\
+Входные данные: USER\_ID
+\lstinputlisting[language=sql]{../sql/actions/16.sql}
+\item \textbf{Получить статистику за последние 5 минут: количетство постов, сообщений, лайков, суммарный размер загруженных файлов} \\
+\lstinputlisting[language=sql]{../sql/actions/17.sql}
 \end{enumerate}
 \end{document}

@@ -1,0 +1,1 @@
+insert into Followers (follower_id, following_id) values (FROM_ID, TO_ID);

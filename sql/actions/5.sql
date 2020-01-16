@@ -1,0 +1,1 @@
+insert into UserGroups (user_id, group_id) values (USER_ID, GROUP_ID);

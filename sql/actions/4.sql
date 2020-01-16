@@ -1,0 +1,1 @@
+insert into Likes (user_id, post_id) values (USER_ID, POST_ID);
