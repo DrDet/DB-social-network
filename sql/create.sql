@@ -7,7 +7,7 @@ create table Users
     id            serial       not null unique,
     name          varchar(100) not null,
     surname       varchar(100) not null,
-    login         varchar(100) not null,
+    login         varchar(100) not null unique,
     password_hash varchar(100) not null,
     gender        gender,
     custom_gender varchar(100),
@@ -67,8 +67,8 @@ create table Media
 
 create table Followers
 (
-    follower_id  numeric(10) not null,
-    following_id numeric(10) not null,
+    follower_id  integer not null,
+    following_id integer not null,
     primary key (follower_id, following_id),
     foreign key (follower_id) references Users (id) deferrable initially deferred,
     foreign key (following_id) references Users (id) deferrable initially deferred
@@ -76,8 +76,8 @@ create table Followers
 
 create table Likes
 (
-    user_id numeric(10) not null,
-    post_id numeric(10) not null,
+    user_id integer not null,
+    post_id integer not null,
     primary key (user_id, post_id),
     foreign key (user_id) references Users (id) deferrable initially deferred,
     foreign key (post_id) references Posts (id) deferrable initially deferred
@@ -86,8 +86,8 @@ create table Likes
 
 create table UserChats
 (
-    user_id numeric(10) not null,
-    chat_id numeric(10) not null,
+    user_id integer not null,
+    chat_id integer not null,
     primary key (user_id, chat_id),
     foreign key (user_id) references Users (id) deferrable initially deferred,
     foreign key (chat_id) references Chats (id) deferrable initially deferred
@@ -95,8 +95,8 @@ create table UserChats
 
 create table UserGroups
 (
-    user_id  numeric(10) not null,
-    group_id numeric(10) not null,
+    user_id  integer not null,
+    group_id integer not null,
     primary key (user_id, group_id),
     foreign key (user_id) references Users (id) deferrable initially deferred,
     foreign key (group_id) references Groups (id) deferrable initially deferred
@@ -104,8 +104,8 @@ create table UserGroups
 
 create table UserMedia
 (
-    media_id numeric(10) not null unique,
-    user_id  numeric(10) not null,
+    media_id integer not null unique,
+    user_id  integer not null,
     primary key (media_id),
     foreign key (media_id) references Media (id) deferrable initially deferred,
     foreign key (user_id) references Users (id) deferrable initially deferred
@@ -113,8 +113,8 @@ create table UserMedia
 
 create table UserPosts
 (
-    post_id numeric(10) not null unique,
-    user_id numeric(10) not null,
+    post_id integer not null unique,
+    user_id integer not null,
     primary key (post_id),
     foreign key (post_id) references Posts (id) deferrable initially deferred,
     foreign key (user_id) references Users (id) deferrable initially deferred
@@ -122,8 +122,8 @@ create table UserPosts
 
 create table GroupPosts
 (
-    post_id  numeric(10) not null unique,
-    group_id numeric(10) not null,
+    post_id  integer not null unique,
+    group_id integer not null,
     primary key (post_id),
     foreign key (post_id) references Posts (id) deferrable initially deferred,
     foreign key (group_id) references Groups (id) deferrable initially deferred
@@ -131,8 +131,8 @@ create table GroupPosts
 
 create table GroupMedia
 (
-    media_id numeric(10) not null unique,
-    group_id numeric(10) not null,
+    media_id integer not null unique,
+    group_id integer not null,
     primary key (media_id),
     foreign key (media_id) references Media (id) deferrable initially deferred,
     foreign key (group_id) references Groups (id) deferrable initially deferred
@@ -140,8 +140,8 @@ create table GroupMedia
 
 create table MessageMedia
 (
-    media_id   numeric(10) not null unique,
-    message_id numeric(10) not null,
+    media_id   integer not null unique,
+    message_id integer not null,
     primary key (media_id),
     foreign key (media_id) references Media (id) deferrable initially deferred,
     foreign key (message_id) references Messages (id) deferrable initially deferred
@@ -149,8 +149,8 @@ create table MessageMedia
 
 create table PostMedia
 (
-    media_id numeric(10) not null unique,
-    post_id  numeric(10) not null,
+    media_id integer not null unique,
+    post_id  integer not null,
     primary key (media_id),
     foreign key (media_id) references Media (id) deferrable initially deferred,
     foreign key (post_id) references Posts (id) deferrable initially deferred
@@ -167,4 +167,5 @@ alter table Messages
 alter table Groups
     add foreign key (id, user_id) references UserGroups (group_id, user_id) deferrable initially deferred;
 
+create extension plpython3u;
 commit;
