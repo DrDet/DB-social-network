@@ -178,21 +178,19 @@ TO\_ID -- кому заявка
 \item \textbf{Пользователь отправил в чат сообщение} \\
 \lstinputlisting[language=sql]{../sql/stored-procedures/1.sql}
 \item \textbf{Пользователь опубликовал пост} \\
-Входные данные: USER\_ID, POST\_TEXT
 \lstinputlisting[language=sql]{../sql/stored-procedures/3.sql}
 \item \textbf{Группа опубликовала пост} \\
-Входные данные: GROUP\_ID, POST\_TEXT
 \lstinputlisting[language=sql]{../sql/stored-procedures/6.sql}
 \item \textbf{Пользователь открыл ленту (получил все посты своих групп и подписок, кроме тех, которые уже лайкал)} \\
 \\\\\\\\\\\\\\\\\\\\\\\\\\
 \lstinputlisting[language=sql, tab=2]{../sql/stored-procedures/9.sql}
-\item \textbf{Получить топ 20 интересных постов (n постов с наибольшим количеством лайков от подписок)} \\
+\item \textbf{Получить топ n интересных постов (n постов с наибольшим количеством лайков от подписок)} \\
 Входные данные: USER\_ID
 \lstinputlisting[language=sql]{../sql/stored-procedures/10.sql}
 \item \textbf{Получить общих друзей с другим пользователем} \\
 Входные данные: USER\_ID, OTHER\_ID
 \lstinputlisting[language=sql]{../sql/stored-procedures/11.sql}
-\item \textbf{Получить 10 наиболее возможных знакомых (n человек с наибольшим количеством общих друзей)} \\
+\item \textbf{Получить n наиболее возможных знакомых (n человек с наибольшим количеством общих друзей)} \\
 Входные данные: USER\_ID \\
 \lstinputlisting[language=sql]{../sql/stored-procedures/12.sql}
 \item \textbf{Получить ранжированный список друзей (по количеству сообщений в смежных чатах)} \\
@@ -207,4 +205,8 @@ TO\_ID -- кому заявка
 \item \textbf{Получить статистику за последние 5 минут: количетство постов, сообщений, суммарный размер загруженных файлов} \\
 \lstinputlisting[language=sql]{../sql/stored-procedures/17.sql}
 \end{enumerate}
+\section{Триггеры}
+\lstinputlisting[language=sql]{../sql/triggers.sql}
+\section{Индексы}
+\lstinputlisting[language=sql]{../sql/indexes.sql}
 \end{document}
