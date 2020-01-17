@@ -59,9 +59,13 @@
 \begin{itemize}
 \item id $\rightarrow$ filePath
 \item filePath $\rightarrow$ id
-\item id $\rightarrow$ type
-\item id $\rightarrow$ size
-\item id $\rightarrow$ time
+\item id $\rightarrow$ любой атрибут
+\end{itemize}
+\textbf{Users:}
+\begin{itemize}
+\item id $\rightarrow$ login
+\item login $\rightarrow$ id
+\item id $\rightarrow$ любой атрибут
 \end{itemize}
 У следующих отношений пустое множество функциональных зависимостей:
 \begin{itemize}
@@ -73,7 +77,6 @@
 У следующих отношений множество функциональных зависимостей имеет вид \\
 $\{id \rightarrow A ~ | ~ \forall A \in \textit{attrs}, A \ne id\}$:
 \begin{itemize}
-\item Users
 \item Chats
 \item Messages
 \item Groups
@@ -87,7 +90,7 @@ $\{id \rightarrow A ~ | ~ \forall A \in \textit{attrs}, A \ne id\}$:
 \end{itemize}
 \subsection{Нормальные формы}
 Все отношения находятся в 5 НФ. Доказательство:\\
-\textbf{Media}:
+\textbf{Media и Users}:
 \begin{itemize}
 \item 3 НФ: \\
 т.к. все неключевые атрибуты непосредственно зависят от ключа
@@ -209,4 +212,29 @@ TO\_ID -- кому заявка
 \lstinputlisting[language=sql]{../sql/triggers.sql}
 \section{Индексы}
 \lstinputlisting[language=sql]{../sql/indexes.sql}
+\section{Уровни изоляции}
+\begin{enumerate}
+\item \textbf{Пользователь отправил в чат сообщение} \\
+read committed
+\item \textbf{Пользователь опубликовал пост} \\
+read committed
+\item \textbf{Группа опубликовала пост} \\
+read committed
+\item \textbf{Пользователь открыл ленту (получил все посты своих групп и подписок, кроме тех, которые уже лайкал)} \\
+read committed
+\item \textbf{Получить топ n интересных постов (n постов с наибольшим количеством лайков от подписок)} \\
+read committed
+\item \textbf{Получить общих друзей с другим пользователем} \\
+read committed
+\item \textbf{Получить n наиболее возможных знакомых (n человек с наибольшим количеством общих друзей)} \\
+read committed
+\item \textbf{Получить ранжированный список друзей (по количеству сообщений в смежных чатах)} \\
+read committed
+\item \textbf{Получить ранжированный список групп (по количеству лайков от пользователя на постах этой группы)} \\
+read committed
+\item \textbf{Получить список чатов в порядке времени последнего сообщения} \\
+read committed
+\item \textbf{Получить статистику за последние 5 минут: количетство постов, сообщений, суммарный размер загруженных файлов} \\
+read committed
+\end{enumerate}
 \end{document}
